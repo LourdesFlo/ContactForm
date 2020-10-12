@@ -7,6 +7,7 @@ namespace ContactFormAPI.Domain
         Failed = -1,
         Send = 1,
         Pending = 2,
+        Sending = 3,
     }
 
     public class Message
@@ -28,6 +29,11 @@ namespace ContactFormAPI.Domain
             Body = body;
             Date = DateTime.Now;
             State = MessageState.Pending;
+        }
+
+        internal void SetState(MessageState newState)
+        {
+            State = newState;
         }
     }
 }
