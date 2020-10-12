@@ -1,4 +1,5 @@
 ﻿using ContactFormAPI.Domain;
+using ContactFormAPI.Repositories.Exceptions;
 using System;
 using System.Collections.Generic;
 
@@ -20,6 +21,28 @@ namespace ContactFormAPI.Repositories
         {
             messages.Add(msg);
             return msg;
+        }
+
+        public Message SetState(Guid id, MessageState newState)
+        {
+            Message message = GetMessageById(id);
+
+            message.SetState(newState);
+
+            return message;              
+        }
+
+        private Message GetMessageById(Guid id)
+        {
+            var message = messages.Find(m => m.Id.Equals(id));
+            if (message == null)
+            {
+                MessageNotFoundException exception = new MessageNotFoundException("Message not found");
+                exception.Data["MessageId"] = id;
+                throw exception;
+            }
+
+            return message;
         }
     }
 }
