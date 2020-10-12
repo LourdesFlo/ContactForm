@@ -11,12 +11,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/message",
+					"raw": "http://localhost:5003/message",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5003",
 					"path": [
 						"message"
 					]
@@ -31,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"hola\": \"prueba error\"\r\n}",
+					"raw": "{\r\n    \"To\": \"pepito@invent.com\",\r\n    \"From\": \"anita123@invent.com\",\r\n    \"Subject\": \"Creación Mensaje Prueba 2\",\r\n    \"Body\": \"Esta es una prueba de creación de mensaje 2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,14 +39,44 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/message",
+					"raw": "http://localhost:5003/message",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "5000",
+					"port": "5003",
 					"path": [
 						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Send",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"To\": \"pepito@invent.com\",\r\n    \"From\": \"anita123@invent.com\",\r\n    \"Subject\": \"Creación Mensaje Prueba 2\",\r\n    \"Body\": \"Esta es una prueba de creación de mensaje 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5003/message/f2593816-6000-4783-8ad8-eaf806ed57d9/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"message",
+						"f2593816-6000-4783-8ad8-eaf806ed57d9",
+						"send"
 					]
 				}
 			},
