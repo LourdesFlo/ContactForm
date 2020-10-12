@@ -6,5 +6,7 @@ namespace ContactFormAPI.Repositories
     public interface IMessageRepository
     {
         IEnumerable<Message> Get();
+
+        Message Save(Message msg);
     }
 }

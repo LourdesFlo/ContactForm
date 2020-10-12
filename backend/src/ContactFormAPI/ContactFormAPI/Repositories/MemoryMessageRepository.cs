@@ -18,7 +18,7 @@ namespace ContactFormAPI.Repositories
             }, 
             new Message()
             {
-                                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 To = "Prueba2@gmail.com",
                 From = "PruebaFrom2@gmail.com",
                 Subject = "Asunto Prueba 2",
@@ -30,6 +30,12 @@ namespace ContactFormAPI.Repositories
         public IEnumerable<Message> Get()
         {
             return messages;
+        }
+
+        public Message Save(Message msg)
+        {
+            messages.Add(msg);
+            return msg;
         }
     }
 }
