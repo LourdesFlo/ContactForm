@@ -11,15 +11,7 @@ namespace ContactFormAPI.Mappers
     {
         public Message FromDtoToDomain(MessageDto dto)
         {
-            return new Message
-            {
-                Id = Guid.NewGuid(),
-                To = dto.To,
-                From = dto.From,
-                Subject = dto.Subject,
-                Body = dto.Body,
-                Date = DateTime.Now
-            };
+            return new Message(dto.To, dto.From, dto.Subject, dto.Body);
         }
 
         public MessageDto FromDomainToDto(Message message)

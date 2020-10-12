@@ -7,24 +7,8 @@ namespace ContactFormAPI.Repositories
     public class MemoryMessageRepository : IMessageRepository
     {
         private static List<Message> messages = new List<Message>() {
-            new Message()
-            {
-                Id = Guid.NewGuid(),
-                To = "Prueba@gmail.com",
-                From = "PruebaFrom@gmail.com",
-                Subject = "Asunto Prueba",
-                Body = "Mensaje Prueba",
-                Date = DateTime.Now
-            }, 
-            new Message()
-            {
-                Id = Guid.NewGuid(),
-                To = "Prueba2@gmail.com",
-                From = "PruebaFrom2@gmail.com",
-                Subject = "Asunto Prueba 2",
-                Body = "Mensaje Prueba 2",
-                Date = DateTime.Now
-            }
+            new Message("skaufman@example.com", "mpiotr@example.com", "Example", "Lorem Ipsum is simply dummy text of the printing and typesetting industry."), 
+            new Message("sabren@example.com", "erynf@example.com", "Example 2", "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
         };
 
         public IEnumerable<Message> Get()
