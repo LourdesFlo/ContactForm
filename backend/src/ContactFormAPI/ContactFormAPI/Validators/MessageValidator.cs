@@ -13,8 +13,8 @@ namespace ContactFormAPI.Validators
         {
             RuleFor(to => to.To).NotNull().NotEmpty().EmailAddress();
             RuleFor(from => from.From).NotNull().NotEmpty().EmailAddress();
-            RuleFor(subject => subject.Subject).NotNull().NotEmpty().MaximumLength(SubjectMaxLength);
-            RuleFor(body => body.Body).NotNull().NotEmpty().MaximumLength(BodyMaxLength);
+            RuleFor(subject => subject.Subject).MaximumLength(SubjectMaxLength);
+            RuleFor(body => body.Body).MaximumLength(BodyMaxLength);
         }
     }
 }
