@@ -38,4 +38,4 @@ This is an example to implement a REST API with react
 ## Contact
 
 Lourdes Flores Novillo
-[mailto](mailto:lourdes.flores.novillo@gmail.com)
+[lourdes.flores.novillo@gmail.com](mailto:lourdes.flores.novillo@gmail.com)
