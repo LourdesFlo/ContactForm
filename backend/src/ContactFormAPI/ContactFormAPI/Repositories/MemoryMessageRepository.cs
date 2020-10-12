@@ -9,12 +9,17 @@ namespace ContactFormAPI.Repositories
     {
         private static List<Message> messages = new List<Message>() {
             new Message("skaufman@example.com", "mpiotr@example.com", "Example", "Lorem Ipsum is simply dummy text of the printing and typesetting industry."), 
-            new Message("sabren@example.com", "erynf@example.com", "Example 2", "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
+            new Message("sabren@example.com", "erynf@example.com", "Example 2", "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
         };
 
         public IEnumerable<Message> Get()
         {
             return messages;
+        }
+
+        public Message Get(Guid messageId)
+        {
+            return GetMessageById(messageId);
         }
 
         public Message Save(Message msg)

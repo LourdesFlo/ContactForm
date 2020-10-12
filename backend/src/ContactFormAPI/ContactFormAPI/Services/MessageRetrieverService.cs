@@ -20,5 +20,10 @@ namespace ContactFormAPI.Services
         {
             return _messageRepository.Get();
         }
+
+        public Message Get(Guid messageId)
+        {
+            return _messageRepository.Get(messageId);
+        }
     }
 }

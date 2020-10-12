@@ -8,6 +8,8 @@ namespace ContactFormAPI.Repositories
     {
         IEnumerable<Message> Get();
 
+        Message Get(Guid id);
+
         Message Save(Message msg);
 
         Message SetState(Guid id, MessageState newState);
