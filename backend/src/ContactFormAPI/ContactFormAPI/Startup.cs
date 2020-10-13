@@ -1,12 +1,10 @@
 using System.Net.Mail;
 using System.Text.Json;
 using ContactFormAPI.DTOS;
+using ContactFormAPI.Exceptions;
 using ContactFormAPI.Repositories;
 using ContactFormAPI.Services;
 using ContactFormAPI.Validators;
-using FluentEmail.Core;
-using FluentEmail.Core.Interfaces;
-using FluentEmail.Smtp;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -30,8 +28,8 @@ namespace ContactFormAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers(options => 
-            { 
-                options.Filters.Add(new CustomExceptionFilter()); 
+            {
+                options.Filters.Add(new CustomExceptionFilter(CreateExceptionHandlersChain())); 
             })
             .AddFluentValidation()
             .AddJsonOptions(options => 
@@ -72,6 +70,22 @@ namespace ContactFormAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private IExceptionHandler CreateExceptionHandlersChain()
+        {
+            IExceptionHandler exceptionsHandlerList = new MessageNotFoundExceptionHandler();
+            IExceptionHandler invalidMessageStateExceptionHandler = new InvalidMessageStateExceptionHandler();
+            IExceptionHandler smtpClientExceptionHandler = new SmtpClientExceptionHandler();
+            IExceptionHandler sendEmailExceptionHandler = new SendEmailExceptionHandler();
+            IExceptionHandler defaultExceptionHandler = new DefaultExceptionHandler();
+
+            exceptionsHandlerList.SetNext(invalidMessageStateExceptionHandler);
+            invalidMessageStateExceptionHandler.SetNext(smtpClientExceptionHandler);
+            smtpClientExceptionHandler.SetNext(sendEmailExceptionHandler);
+            sendEmailExceptionHandler.SetNext(defaultExceptionHandler);
+
+            return exceptionsHandlerList;
         }
     }
 }
