@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 
 namespace ContactFormAPI.Services.Exceptions
 {
-    public class SmptClientException : Exception
+    public class SmtpClientException : Exception
     {
-        public SmptClientException()
+        public SmtpClientException()
         {
         }
 
-        public SmptClientException(string message)
+        public SmtpClientException(string message)
             : base(message)
         {
         }
 
-        public SmptClientException(string message, Exception inner)
+        public SmtpClientException(string message, Exception inner)
             : base(message, inner)
         {
         }

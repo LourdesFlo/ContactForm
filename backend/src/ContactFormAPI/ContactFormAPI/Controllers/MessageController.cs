@@ -61,7 +61,7 @@ namespace ContactFormAPI.Controllers
                 exception.Data["MessageId"] = savedMessage.Id;
 
                 _logger.LogError(exception, "Error sending email");
-                return StatusCode(500);   
+                throw exception;
             }
 
             return Ok(mapper.FromDomainToDto(savedMessage));

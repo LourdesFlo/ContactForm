@@ -46,7 +46,7 @@ namespace ContactFormAPI.Services
 
             } catch(Exception ex)
             {
-                var exception = new SmptClientException("Error in SMTP client", ex);
+                var exception = new SmtpClientException("Error in SMTP client", ex);
                 exception.Data["MessageId"] = messageToSend.Id;
                 throw exception;
             }
