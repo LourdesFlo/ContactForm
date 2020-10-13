@@ -18,7 +18,7 @@ namespace ContactFormAPI.Services
             _fluentEmail = fluentEmail;
         }
 
-        public async void Send(Message messageToSend)
+        public void Send(Message messageToSend)
         {
             if(!messageToSend.CanBeSend())
             {
@@ -32,12 +32,12 @@ namespace ContactFormAPI.Services
 
             try
             {
-                SendResponse response = await _fluentEmail
+                SendResponse response = _fluentEmail
                     .SetFrom(messageToSend.From)
                     .To(messageToSend.To)
                     .Subject(messageToSend.Subject)
                     .Body(messageToSend.Body)
-                    .SendAsync();
+                    .SendAsync().Result;
 
                 if (response.Successful)
                 {
@@ -48,9 +48,8 @@ namespace ContactFormAPI.Services
             {
                 var exception = new SmptClientException("Error in SMTP client", ex);
                 exception.Data["MessageId"] = messageToSend.Id;
+                throw exception;
             }
-
-            
         }
     }
 }

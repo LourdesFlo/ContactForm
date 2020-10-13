@@ -1,5 +1,4 @@
 ﻿using ContactFormAPI.Domain;
-using ContactFormAPI.DTOS;
 
 namespace ContactFormAPI.Services
 {

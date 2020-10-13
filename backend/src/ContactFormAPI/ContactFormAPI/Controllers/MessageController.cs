@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using ContactFormAPI.Domain;
 using ContactFormAPI.DTOS;
 using ContactFormAPI.Mappers;
@@ -41,41 +42,29 @@ namespace ContactFormAPI.Controllers
 
         [HttpPost]
         [Route("[controller]")]
-        public MessageDto Save(MessageDto message)
+        public ActionResult<MessageDto> Send(MessageDto message)
         {
             Message savedMessage = _messageCreatorService.Save(mapper.FromDtoToDomain(message));
-            return mapper.FromDomainToDto(savedMessage);
-        }
 
-        [HttpPost]
-        [Route("[controller]/{id}/send")]
-        public IActionResult Send([FromRoute] string id)
-        {
-            if (!Guid.TryParse(id, out Guid messageId))
-            {
-                return BadRequest();
-            }
-
-            var message = _messageRetrieverService.Get(messageId);
-            if (message == null)
+            if (savedMessage == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _messageSender.Send(message);
+                _messageSender.Send(savedMessage);
             } 
             catch(Exception ex)
             {
                 var exception = new SendEmailException("Error sending email", ex);
-                exception.Data["MessageId"] = messageId;
+                exception.Data["MessageId"] = savedMessage.Id;
 
                 _logger.LogError(exception, "Error sending email");
                 return StatusCode(500);   
             }
 
-            return Ok();
+            return Ok(mapper.FromDomainToDto(savedMessage));
         }
     }
 }
