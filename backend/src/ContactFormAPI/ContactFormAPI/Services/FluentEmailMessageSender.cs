@@ -2,6 +2,8 @@
 using ContactFormAPI.Repositories;
 using ContactFormAPI.Services.Exceptions;
 using FluentEmail.Core;
+using FluentEmail.Core.Models;
+using System;
 
 namespace ContactFormAPI.Services
 {
@@ -28,12 +30,27 @@ namespace ContactFormAPI.Services
 
             _messageRepository.SetState(messageToSend.Id, MessageState.Sending);
 
-            await _fluentEmail
-                .SetFrom(messageToSend.From)
-                .To(messageToSend.To)
-                .Subject(messageToSend.Subject)
-                .Body(messageToSend.Body)
-            .SendAsync();
+            try
+            {
+                SendResponse response = await _fluentEmail
+                    .SetFrom(messageToSend.From)
+                    .To(messageToSend.To)
+                    .Subject(messageToSend.Subject)
+                    .Body(messageToSend.Body)
+                    .SendAsync();
+
+                if (response.Successful)
+                {
+                    _messageRepository.SetState(messageToSend.Id, MessageState.Send);
+                }
+
+            } catch(Exception ex)
+            {
+                var exception = new SmptClientException("Error in SMTP client", ex);
+                exception.Data["MessageId"] = messageToSend.Id;
+            }
+
+            
         }
     }
 }

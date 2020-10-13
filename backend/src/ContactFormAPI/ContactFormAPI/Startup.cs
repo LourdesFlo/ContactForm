@@ -49,7 +49,6 @@ namespace ContactFormAPI
             services
                 .AddFluentEmail("defaultsender@test.test")
                 .AddSmtpSender(smtpClient);
-            // services.AddSingleton<ISender, smtpClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
