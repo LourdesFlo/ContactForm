@@ -8,16 +8,31 @@ export class MessageList extends Component{
         this.state = {
             messages_list: []
         };
-        this.messagesStore = this.messagesStore.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const options = {
+            crossDomain:true,
+            headers: {
+              'Access-Control-Allow-Origin':'*'
+            }
+        }
+
+        let res = await fetch("http://localhost:5003/message", options)
+        let messages = res.json()
+        console.log(messages)
+        this.setState({messages_list: messages})
     }
 
     render() {
         return(
             <div>
-                <MessageItem></MessageItem>
+                {this.state.messages_list.map(message => (
+                    <MessageItem>
+                        {}
+                    </MessageItem>
+                ))}
+                
             </div>
         );
     }
