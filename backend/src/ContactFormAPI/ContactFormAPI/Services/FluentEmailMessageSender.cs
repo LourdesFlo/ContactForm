@@ -39,22 +39,27 @@ namespace ContactFormAPI.Services
                     .Body(messageToSend.Body)
                     .SendAsync().Result;
 
-                if (response.Successful)
-                {
-                    _messageRepository.SetState(messageToSend.Id, MessageState.Send);
-                }
-                else
-                {
-                    _messageRepository.SetState(messageToSend.Id, MessageState.Failed);
-                }
-
-            } catch(Exception ex)
+                UpdateMessageResult(response, messageToSend);
+            } 
+            catch(Exception ex)
             {
                 _messageRepository.SetState(messageToSend.Id, MessageState.Failed);
                 var exception = new SmtpClientException("Error in SMTP client", ex);
                 exception.Data["MessageId"] = messageToSend.Id;
                 exception.Data["MessageState"] = messageToSend.State;
                 throw exception;
+            }
+        }
+
+        private void UpdateMessageResult(SendResponse response, Message message)
+        {
+            if (response.Successful)
+            {
+                _messageRepository.SetState(message.Id, MessageState.Send);
+            }
+            else
+            {
+                _messageRepository.SetState(message.Id, MessageState.Failed);
             }
         }
     }
