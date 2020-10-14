@@ -43,11 +43,17 @@ namespace ContactFormAPI.Services
                 {
                     _messageRepository.SetState(messageToSend.Id, MessageState.Send);
                 }
+                else
+                {
+                    _messageRepository.SetState(messageToSend.Id, MessageState.Failed);
+                }
 
             } catch(Exception ex)
             {
+                _messageRepository.SetState(messageToSend.Id, MessageState.Failed);
                 var exception = new SmtpClientException("Error in SMTP client", ex);
                 exception.Data["MessageId"] = messageToSend.Id;
+                exception.Data["MessageState"] = messageToSend.State;
                 throw exception;
             }
         }
